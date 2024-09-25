@@ -1,0 +1,129 @@
+{
+  "name": "vscode-synteccloud-release",
+  "displayName": "vscode-synteccloud-release",
+  "description": "A simple VScode extension to release synteccloud repo.",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.86.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-synteccloud-release.release-button-click",
+        "title": "Release button click"
+      },
+      {
+        "command": "vscode-synteccloud-release.configSetting",
+        "title": "Config setting for release"
+      },
+      {
+        "command": "vscode-synteccloud-release.release",
+        "title": "Release synteccloud"
+      },
+      {
+        "command": "vscode-synteccloud-release.push",
+        "title": "Push released synteccloud"
+      },
+      {
+        "command": "vscode-synteccloud-release.open-gitlab",
+        "title": "Open origin Gitlab url"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "ctrl+alt+R",
+        "command": "vscode-synteccloud-release.release-button-click"
+      }
+    ],
+    "configuration": {
+      "title": "Synteccloud Release",
+      "properties": {
+        "synteccloudRelease.clientName": {
+          "type": "string",
+          "default": "",
+          "description": "The client name."
+        },
+        "synteccloudRelease.repoName": {
+          "type": "string",
+          "default": "",
+          "description": "The repo name."
+        },
+        "synteccloudRelease.clientDisplayName": {
+          "type": "string",
+          "default": "",
+          "description": "The client name to display."
+        },
+        "synteccloudRelease.isSpecial": {
+          "type": "boolean",
+          "default": null,
+          "description": "Is special version or not."
+        },
+        "synteccloudRelease.softwareVersion": {
+          "type": "string",
+          "default": "",
+          "description": "The current version of repo."
+        },
+        "synteccloudRelease.productVersion": {
+          "type": "string",
+          "default": "",
+          "description": "The current standard version of repo."
+        },
+        "synteccloudRelease.branchName": {
+          "type": "string",
+          "default": "",
+          "description": "Released branch name."
+        },
+        "synteccloudRelease.author": {
+          "type": "string",
+          "default": "",
+          "description": "The user name."
+        }
+      }
+    }
+  },
+  "icon": "assets/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsai1247/SyntecCloudRelease.git"
+  },
+  "scripts": {
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map && vsce package --out dist/vscode-synteccloud-release.vsix",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "extension": " code --install-extension ./dist/vscode-synteccloud-release.vsix",
+    "build": "npm run package && npm run extension"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "vue-template-compiler": "^2.7.16"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.35",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.16",
+    "@types/vscode": "^1.86.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.9",
+    "commander": "^12.0.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "eslint": "^8.56.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
