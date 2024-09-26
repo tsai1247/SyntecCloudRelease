@@ -157,8 +157,12 @@ async function release() {
   // Step 0: git reset HEAD --hard
   await executeCommand('git pull', cwd);
 
+  // create commit for workspace parameter (maybe empty commit)
+  await executeCommand('git add .', cwd);
+  await executeCommand(`git commit -m "build: ${releaseCommit}" --allow-empty`, cwd);
+
   // Step 1: 修改 package.json，將 version 欄位改為 softwareVersion
-  const npmVersionSuccess = await executeCommand(`npm version ${softwareVersion}`, cwd);
+  const npmVersionSuccess = await executeCommand(`npm version "${softwareVersion}"`, cwd);
 
   if (npmVersionSuccess) {
     // Step 1-2: git tag -d v{softwareVersion}
@@ -181,19 +185,11 @@ async function release() {
     }
   } catch (error) {}
 
-
-
   // Step 4: git add .
   await executeCommand('git add .', cwd);
 
-  if (npmVersionSuccess) {
-    // Step 5: git commit -m `Release ${name}_${softwareVersion}(產品版號${productVersion}${isSpecial?"特別版": ""}) By${author}`
-    await executeCommand(`git commit --amend -m "build: ${releaseCommit}" --allow-empty`, cwd);
-  }
-  else {
-    // Step 5: git commit -m `Release ${name}_${softwareVersion}(產品版號${productVersion}${isSpecial?"特別版": ""}) By${author}`
-    await executeCommand(`git commit -m "build: ${releaseCommit}" --allow-empty`, cwd);
-  }
+  // Step 5: git commit -m `Release ${name}_${softwareVersion}(產品版號${productVersion}${isSpecial?"特別版": ""}) By${author}`
+  await executeCommand(`git commit --amend -m "build: ${releaseCommit}" --allow-empty`, cwd);
 
   // Step 6: git tag {softwareVersion} -m `Release ${name}_${softwareVersion}(產品版號${productVersion}${isSpecial?"特別版": ""})`
   const success = await executeCommand(`git tag ${softwareVersion} -m "${releaseCommit}"`, cwd);
