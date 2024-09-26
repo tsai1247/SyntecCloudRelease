@@ -167,6 +167,7 @@ async function release() {
   if (npmVersionSuccess) {
     // Step 1-2: git tag -d v{softwareVersion}
     await executeCommand(`git tag -d v${softwareVersion}`, cwd);
+    await executeCommand('git reset HEAD~', cwd);
   }
 
   // Step 2: 修改 public/globalVariable.js，將 version 欄位改為 {isSpecial?name:""}productVersion
