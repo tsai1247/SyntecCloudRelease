@@ -2,7 +2,7 @@
   "name": "vscode-synteccloud-release",
   "displayName": "vscode-synteccloud-release",
   "description": "A simple VScode extension to release synteccloud repo.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.86.0"
   },
